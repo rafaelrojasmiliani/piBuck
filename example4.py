@@ -4,25 +4,26 @@ from sympy import *
 
 f=[0,0,0];
 
-v,z,t=symbols(r'v z t',real=True);
-F=symbols(r'F',real=True)
+t=symbols(r't',real=True);
+z=symbols(r'z',cls=Function)(t);
+F=symbols(r'F',cls=Function)(t)
 m,c,k=symbols(r'm c k',positive=True)
 
-f[0]=v
-f[1]=1/m*(-k*z-c*v+F)
-
+eq=m*diff(z,t,2)+c*diff(z,t)+k*z==F
 pb=cPiBuck();
 
 fd=pb.getFunDimDic();
 
-pb.addVar(v,fd['length']/fd['time'])
 pb.addVar(z,fd['length'])
-pb.addVar(F,fd['force'])
 pb.addVar(t,fd['time'])
 pb.addConst(m,fd['mass'])
 pb.addConst(c,fd['mass']/fd['time'])
 pb.addConst(k,fd['mass']/fd['time']**2)
+pb.addConst(F,fd['force'])
 
 pb.info()
 
 print pb.getDimMat()
+
+res=pb.getPiPars([m,k,F]);
+print res

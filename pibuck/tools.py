@@ -37,3 +37,27 @@ def rank(A, atol=1e-13, rtol=0):
   tol = max(atol, rtol * s[0])
   result = int((s >= tol).sum())
   return result
+
+
+def subsVars(exp,d,timesubs,dnewdold):
+  t=timesubs[0]
+  tau=timesubs[1]
+  res=exp;
+  for var,var0 in d.iteritems():
+    for order in list(reversed(range(0,4))):
+      if(exp.has(sp.diff(var,t,order))):
+        res=res.subs(sp.diff(var,t,order),sp.diff(var0,tau,order)*dnewdold**order);
+  return res
+    
+def simplifyEq(ex):
+  lhs=ex.lhs.factor()
+  rhs=ex.rhs.factor()
+  resLhs=lhs
+  resRhs=rhs
+  if type(lhs)==type(rhs):
+    for el in lhs.args:
+      if el in rhs.args:
+        resLhs=resLhs/el
+        resRhs=resRhs/el
+  return sp.Eq(resLhs,resRhs)
+
