@@ -85,11 +85,11 @@ adimMapPars=[m,k,yinf,kt]
 res=pb.getPiPars(adimMapPars,subsDict)
 print("\n---the relation between the dimensional variables and the pi pars is---\n")
 for i,j in res.items():
-  print i," = ",j
+  print(i, " = ", j)
 
 print("\n---The original expressions are---\n")
 eq1bar=pb.normalizeExp(eq1,t,tau,adimMapPars,subsDict);
 eq2bar=pb.normalizeExp(eq2,t,tau,adimMapPars,subsDict);
 
-print simplify(eq1bar)
-print simplify(eq2bar)
+print(simplify(eq1bar))
+print(simplify(eq2bar))
