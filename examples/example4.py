@@ -23,7 +23,7 @@ pb.addConst(F,fd['force'])
 
 pb.info()
 
-print pb.getDimMat()
+print(pb.getDimMat())
 
-res=pb.getPiPars([m,k,F]);
-print res
+res = pb.getPiPars([m, k, F])
+print(res)
