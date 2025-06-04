@@ -38,16 +38,16 @@ def getDimMat(vec):
         elif(isinstance(const,Pow)):
             mc[dimensions.index(const.args[0]),j]=const.args[1]
         elif(isinstance(const,Mul)):
-            print const,' is a mul'
+            print(const, ' is a mul')
             for d in const.args:
                 if(isinstance(d,Symbol)):
                     mc[dimensions.index(d),j]=1
                 elif(isinstance(d,Pow)):
                     mc[dimensions.index(d.args[0]),j]=d.args[1]
                 else:
-                    print 'error in',j,const,d,type(d)
+                    print('error in', j, const, d, type(d))
         else:
-            print 'error in ',j,const
+            print('error in ', j, const)
     return mc
                 
 def binomialCoeff(n, k):
@@ -63,7 +63,7 @@ mc=mc[:,adc1];
 
 
 if(rank(mv)!=dimNum):
-    print "the problem can't be solved"
+    print("the problem can't be solved")
 
 
 

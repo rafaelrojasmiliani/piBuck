@@ -43,7 +43,7 @@ def subsVars(exp,d,timesubs,dnewdold):
   t=timesubs[0]
   tau=timesubs[1]
   res=exp;
-  for var,var0 in d.iteritems():
+  for var,var0 in d.items():
     for order in list(reversed(range(0,4))):
       if(exp.has(sp.diff(var,t,order))):
         res=res.subs(sp.diff(var,t,order),sp.diff(var0,tau,order)*dnewdold**order);

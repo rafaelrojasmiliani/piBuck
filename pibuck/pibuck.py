@@ -8,12 +8,13 @@ from . import tools
 
 class cPiBuck:
   def __init__(self):
-    self.cnst=[];
-    self.cnstDim=[];#fundim of the variables
-    self.var=[];#variables
-    self.varDim=[];
-    self.nci=[];
-    self.dims=[];#fundamental fundim in the system
+    self.cnst=[]
+    self.cnstDim=[]  # fundim of the variables
+    self.var=[]  # variables
+    self.varDim=[]
+    self.nci=[]
+    self.nnci=[]
+    self.dims=[]  # fundamental fundim in the system
     M,L,T,I,Th=sp.symbols('M L T I \Theta')
     self.fundim=[M,L,T,I,Th]
     self.fundimdic={ 'mass':M,'length':L,'time':T,\
@@ -21,7 +22,7 @@ class cPiBuck:
                 'force':M*L/T**2,\
                 'power':(M)*(L**2)*(T**-3),\
                 'energy':(M)*(L**2)*(T**-2),\
-                'density':(M)*(L**3),\
+                'density':M*(L**-3),\
                 'electric resistance':M*(L**2)*(T**-3)*(I**-2),\
                 'electric conductance':(M**-1)*(L**-2)*(T**3)*(I**2),\
                 'electric capacitance':(M**-1)*(L**-2)*(T**4)*(I**2),\
@@ -50,23 +51,23 @@ class cPiBuck:
   #initialize the problem, tells the user what he can 
   #do
   def info(self):
-    print 'problem constants: %i'%len(self.cnst);
-    for i,j in zip(self.cnst,self.cnstDim):
-      print '['+str(i)+'] = '+str(j)+' ',
-    
-    print '\nproblem variables: %i'%len(self.var);
-    for i,j in zip(self.var,self.varDim):
-      print '['+str(i)+'] = '+str(j)+' ',
-    
+    print('problem constants: %i' % len(self.cnst))
+    for i, j in zip(self.cnst, self.cnstDim):
+      print('[' + str(i) + '] = ' + str(j) + ' ', end='')
+
+    print('\nproblem variables: %i' % len(self.var))
+    for i, j in zip(self.var, self.varDim):
+      print('[' + str(i) + '] = ' + str(j) + ' ', end='')
+
     s=''
     for i in self.dims:
       s=s+' '+str(i)
-    print '\nproblem physical magnitudes '+ s
-    print 'by the pi Buckingham theorem we have '+\
-    str(len(self.cnst)+len(self.var))+' - '+\
-    str(len(self.dims))+' = '+str(len(self.cnst)+len(self.var)-len(self.dims))+' variables'
+    print('\nproblem physical magnitudes '+ s)
+    print('by the pi Buckingham theorem we have ' +
+    str(len(self.cnst)+len(self.var))+' - '+
+    str(len(self.dims))+' = '+str(len(self.cnst)+len(self.var)-len(self.dims))+' variables')
     dm=self.getDimMat();
-    print 'you need '+str(tools.rank(dm))+' parameters to construct a dimensionless sytem'
+    print('you need '+str(tools.rank(dm))+' parameters to construct a dimensionless sytem')
     
   #tell to the class which variables you whish to
   #use to make the system dimensionless
@@ -127,12 +128,12 @@ class cPiBuck:
     result=exp;
     pipars=self.getPiPars(v,subsDict)
     dt0dt=sp.simplify(t0/pipars[t]);
-    for par,pip in pipars.iteritems():
+    for par,pip in pipars.items():
       if result.has(par) and (par in self.var) and par!=t:
         result=tools.subsVars(\
           result,{par:pip},[t,t0],dt0dt)
 
-    for par,pip in pipars.iteritems():
+    for par,pip in pipars.items():
       if result.has(par) and (par in self.cnst):
         result=result.subs(par,pip)
     return result;
